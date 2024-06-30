@@ -15,9 +15,7 @@ public class App {
             e.printStackTrace();
         }
 
-        ChatServer chatServer = new ChatServer();
-        BroadcastController broadcast = new BroadcastController();
-        broadcast.chatServer(chatServer);
+        ChatServer chatServer = ChatServer.getInstance();
         chatServer.start();
     }
 

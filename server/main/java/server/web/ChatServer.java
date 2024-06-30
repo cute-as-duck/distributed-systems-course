@@ -12,6 +12,8 @@ import java.nio.charset.StandardCharsets;
 
 public class ChatServer {
 
+    private static ChatServer INSTANCE;
+
     private static final String PORT_PROP = "server.port";
 
     private static DatagramSocket datagramSocket;
@@ -28,6 +30,16 @@ public class ChatServer {
     }
 
     private volatile boolean stopped = false;
+
+    private ChatServer() {
+    }
+
+    public static ChatServer getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new ChatServer();
+        }
+        return INSTANCE;
+    }
 
     public void start() {
         System.out.println("Server started...");

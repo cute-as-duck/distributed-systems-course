@@ -18,11 +18,11 @@ public class BroadcastController {
 
     private ChatServer chatServer;
 
-    public void chatServer(ChatServer chatServer) {
-        this.chatServer = chatServer;
-    }
-
     public void onAddPerson(Person person) {
+        if (chatServer == null) {
+            chatServer = ChatServer.getInstance();
+        }
+
         Message message = new Message().addHeader(MESSAGE_KEY, ADD_PERSON).addBody(person.toJson());
         personService.getOnlinePersons().stream()
                 .filter(p -> !p.username().equals(person.username()))
@@ -32,6 +32,10 @@ public class BroadcastController {
     }
 
     public void onRemovePerson(String username) {
+        if (chatServer == null) {
+            chatServer = ChatServer.getInstance();
+        }
+
         Message message = new Message().addHeader(MESSAGE_KEY, REMOVE_PERSON).addBody(username);
         personService.getOnlinePersons().stream()
                 .forEach(p -> chatServer.sendMessage(
